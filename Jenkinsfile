@@ -12,7 +12,22 @@ pipeline {
                 checkout scm
             }
         }
-        
+        stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            script {
+                def scannerHome = tool 'SonarQube'
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=k8shelloworld \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://54.80.215.132:9000 \
+                        -Dsonar.login=$SONARQUBE_TOKEN
+                """
+            }
+        }
+    }
+}
 
         stage('Install Dependencies') {
             steps {
