@@ -4,7 +4,7 @@ pipeline {
         DOCKERHUB_USERNAME = 'yogeshpri'
         DOCKER_IMAGE = "${DOCKERHUB_USERNAME}/flaskimgg"
         DOCKERHUB_TOKEN = credentials('dockerhub-credentials')
-        SONARQUBE_TOKEN = credentials('sonarqube-credential')
+       
     }
     stages {
         stage('Checkout') {
@@ -12,7 +12,7 @@ pipeline {
                 checkout scm
             }
         }
-        
+
 
         stage('Install Dependencies') {
             steps {
