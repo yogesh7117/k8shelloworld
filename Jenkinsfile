@@ -21,7 +21,7 @@ pipeline {
                     ${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=k8shelloworld \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=http://54.80.215.132:9000 \
+                        -Dsonar.host.url=http://54.172.196.197:9000 \
                         -Dsonar.login=$SONARQUBE_TOKEN
                 """
             }
