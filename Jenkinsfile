@@ -51,10 +51,14 @@ pipeline {
             when {
                 branch 'main'
             }
-            steps {
-                sh 'kubectl apply -f deployment.yaml'
-                sh 'kubectl apply -f service.yaml'
-            }
+            stage('Deploy') {
+   steps {
+    withCredentials([string(credentialsId: 'kube-config', variable: 'KUBE_TOKEN')]) {
+     sh 'kubectl --token=$KUBE_TOKEN apply -f deployment.yaml'
+        sh 'kubectl --token=$KUBE_TOKEN apply -f service.yaml'
+    }
+   }
+            
         }
     }
     post {
