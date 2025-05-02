@@ -4,7 +4,6 @@ pipeline {
         DOCKERHUB_USERNAME = 'yogeshpri'
         DOCKER_IMAGE = "${DOCKERHUB_USERNAME}/flaskimgg"
         DOCKERHUB_TOKEN = credentials('dockerhub-credentials')
-       
     }
     stages {
         stage('Checkout') {
@@ -12,7 +11,6 @@ pipeline {
                 checkout scm
             }
         }
-
 
         stage('Install Dependencies') {
             steps {
@@ -51,14 +49,12 @@ pipeline {
             when {
                 branch 'main'
             }
-            stage('Deploy') {
-   steps {
-    withCredentials([string(credentialsId: 'kube-config', variable: 'KUBE_TOKEN')]) {
-     sh 'kubectl --token=$KUBE_TOKEN apply -f deployment.yaml'
-        sh 'kubectl --token=$KUBE_TOKEN apply -f service.yaml'
-    }
-   }
-            
+            steps {
+                withCredentials([string(credentialsId: 'kube-config', variable: 'KUBE_TOKEN')]) {
+                    sh 'kubectl --token=$KUBE_TOKEN apply -f deployment.yaml'
+                    sh 'kubectl --token=$KUBE_TOKEN apply -f service.yaml'
+                }
+            }
         }
     }
     post {
